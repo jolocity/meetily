@@ -1,3 +1,5 @@
+const { themeColors, themePalettePlugin } = require('./theme-palette');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     darkMode: ['class'],
@@ -14,6 +16,7 @@ module.exports = {
   			]
   		},
   		colors: {
+  			...themeColors,
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			border: 'hsl(var(--border))',
@@ -89,5 +92,6 @@ module.exports = {
     require("tailwindcss-animate"),
     require("@tailwindcss/typography"),
     require("@tailwindcss/container-queries"),
+    themePalettePlugin,
   ],
 }

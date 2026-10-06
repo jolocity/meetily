@@ -25,6 +25,7 @@ import { RecordingPostProcessingProvider } from '@/contexts/RecordingPostProcess
 import { ImportAudioDialog, ImportDropOverlay } from '@/components/ImportAudio'
 import { ImportDialogProvider } from '@/contexts/ImportDialogContext'
 import { isAudioExtension, getAudioFormatsDisplayList } from '@/constants/audioFormats'
+import { ThemeProvider, useTheme } from '@/contexts/ThemeContext'
 
 
 const sourceSans3 = Source_Sans_3({
@@ -59,6 +60,11 @@ function ConditionalImportDialog({
       preselectedFile={importFilePath}
     />
   );
+}
+
+function ThemedToaster() {
+  const { resolvedTheme } = useTheme();
+  return <Toaster position="bottom-center" richColors closeButton theme={resolvedTheme} />;
 }
 
 // export { metadata } from './metadata'
@@ -232,7 +238,12 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        {/* eslint-disable-next-line @next/next/no-sync-scripts -- must run before first paint */}
+        <script src="/theme-init.js" />
+      </head>
       <body className={`${sourceSans3.variable} font-sans antialiased`}>
+        <ThemeProvider>
         <AnalyticsProvider>
           <RecordingStateProvider>
             <TranscriptProvider>
@@ -276,7 +287,8 @@ export default function RootLayout({
           </RecordingStateProvider>
         </AnalyticsProvider>
 
-        <Toaster position="bottom-center" richColors closeButton />
+        <ThemedToaster />
+        </ThemeProvider>
       </body>
     </html>
   )
