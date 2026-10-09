@@ -6,6 +6,7 @@ import { EmptyStateSummary } from '@/components/EmptyStateSummary';
 import { ModelConfig } from '@/components/ModelSettingsModal';
 import { SummaryGeneratorButtonGroup } from './SummaryGeneratorButtonGroup';
 import { SummaryUpdaterButtonGroup } from './SummaryUpdaterButtonGroup';
+import { CopyFormat, ExportFormat } from '@/lib/summaryExport';
 import Analytics from '@/lib/analytics';
 import { useEffect, useRef, useState, RefObject } from 'react';
 import { toast } from 'sonner';
@@ -33,7 +34,8 @@ interface SummaryPanelProps {
   summaryRef: RefObject<BlockNoteSummaryViewRef>;
   isSaving: boolean;
   onSaveAll: () => Promise<void>;
-  onCopySummary: () => Promise<void>;
+  onCopySummary: (format: CopyFormat) => Promise<void>;
+  onExportSummary: (format: ExportFormat) => Promise<void>;
   aiSummary: MeetingSummary | null;
   summaryStatus: 'idle' | 'processing' | 'summarizing' | 'regenerating' | 'completed' | 'error';
   transcripts: Transcript[];
@@ -64,6 +66,7 @@ export function SummaryPanel({
   isSaving,
   onSaveAll,
   onCopySummary,
+  onExportSummary,
   aiSummary,
   summaryStatus,
   transcripts,
@@ -273,6 +276,7 @@ export function SummaryPanel({
                 isDirty={isSummaryDirty}
                 onSave={onSaveAll}
                 onCopy={onCopySummary}
+                onExport={onExportSummary}
               />
             </div>
           )}
